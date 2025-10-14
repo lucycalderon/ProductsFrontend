@@ -2,7 +2,7 @@
 import { useProducts } from "../hooks/useProducts";
 
 const ProductsList = () => {
-  const { products, loading, error } = useProducts();
+  const { products, loading, error, removeProduct } = useProducts();
   if (loading) return <p>Caricamento in corso...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
@@ -36,7 +36,7 @@ const ProductsList = () => {
               <td>{p.prezzo}</td>
               <td>{p.quantita}</td>
               <td>{p.descrizione}</td>
-              <button>Delete</button>
+              <button onClick={()=>removeProduct(p.id)}>Delete</button>
             </tr>
           ))}
         </tbody>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/Product";
-import { getProducts } from "../api/productService";
+import { getProducts, deleteProduct } from "../api/productService";
 
 export const useProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -18,5 +18,16 @@ export const useProducts = () => {
         setLoading(false);
       });
   }, []);
-  return {products,loading,error}; 
+
+  const removeProduct = async (id: number) => {
+    try {
+      deleteProduct(id);
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+    } catch (err) {
+      console.error("Errore durante l'eliminazione del prodotto: ", err);
+      setError("Errore durante l'eliminazione del prodotto");
+    }
+  };
+
+  return { products, loading, error, removeProduct };
 };
