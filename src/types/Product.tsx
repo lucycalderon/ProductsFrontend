@@ -7,3 +7,11 @@ export interface Product {
   descrizione: string;
   dataCreazione: string;
 }
+
+export interface ProductPage{
+  content:Product[]; 
+  totalPages: number; 
+  totalElements:number; 
+  number: number; 
+  size: number; 
+}
