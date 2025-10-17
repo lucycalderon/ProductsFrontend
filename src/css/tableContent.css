@@ -1,0 +1,39 @@
+.table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    font-size: 1rem;
+}
+
+.table-container-title {
+    background-color: rgba(153, 136, 136, 0.411);
+
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+    max-width: 1200px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.table-container-content td {
+    padding: 0.5rem 1.4rem;
+    text-align: center;
+}
+
+
+
+.table-container-btn {
+    display: flex;
+    gap: 5px;
+}
+
+.table-container .pagination {
+    display: flex;
+    gap: 8px;
+}

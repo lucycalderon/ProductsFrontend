@@ -1,4 +1,5 @@
 import { useProducts } from "../hooks/useProducts";
+import { Pagination } from "./Pagination";
 
 const ProductsList = () => {
   const {
@@ -11,23 +12,14 @@ const ProductsList = () => {
     loadProducts,
   } = useProducts();
   if (loading) return <p>Caricamento in corso...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
-  console.log(products?.totalPages);
-  console.log("current page: " + products?.number);
-  console.log("numero di pagine: " + numberOfPages);
-  console.log("ciao");
+  if (error) return <p>{error}</p>;
+
   return (
-    <div style={{ padding: "2rem" }}>
+    <div className="table-container">
       <h2>Lista Prodotti</h2>
-      <table
-        style={{
-          borderCollapse: "collapse",
-          width: "100%",
-          border: "1px solid #ddd",
-        }}
-      >
+      <table>
         <thead>
-          <tr>
+          <tr className="table-container-title">
             <th>ID</th>
             <th>Nome</th>
             <th>Categoria</th>
@@ -38,13 +30,13 @@ const ProductsList = () => {
         </thead>
         <tbody>
           {products?.content.map((p) => (
-            <tr key={p.id}>
+            <tr className="table-container-content" key={p.id}>
               <td>{p.id}</td>
-              <td>{p.nome}</td>
+              <td >{p.nome}</td>
               <td>{p.categoria}</td>
-              <td>{p.prezzo}</td>
+              <td>{p.prezzo}$</td>
               <td>{p.quantita}</td>
-              <td>{p.descrizione}</td>
+              <td >{p.descrizione}</td>
               <td>
                 <button onClick={() => removeProduct(p.id)}>Delete</button>
               </td>
@@ -53,7 +45,7 @@ const ProductsList = () => {
         </tbody>
       </table>
       {products && (
-        <div>
+        <div className="table-container-btn">
           <button
             disabled={loading || currentPage <= 0}
             onClick={() => loadProducts(currentPage - 1)}
@@ -61,33 +53,12 @@ const ProductsList = () => {
             Previous
           </button>
 
-          {/* --- Paginazione dinamica limitata --- */}
-          {(() => {
-            const pageButtons = [];
-            const maxVisible = 4; // 👈 numero massimo di pagine visibili
-            const total = numberOfPages;
-
-            // Calcola l'intervallo di pagine da mostrare
-            let start = Math.max(0, currentPage - Math.floor(maxVisible / 2));
-            console.log("start: " + start);
-            let end = start + maxVisible;
-
-            if (end > total) {
-              end = total;
-              start = Math.max(0, end - maxVisible);
-            }
-
-            // Bottoni delle pagine visibili
-            for (let i = start; i < end; i++) {
-              pageButtons.push(
-                <button key={i} onClick={() => loadProducts(i)}>
-                  {i + 1}
-                </button>
-              );
-            }
-            return pageButtons;
-          })()}
-
+          {/* Paginazione Dinamica */}
+          <Pagination
+            currentPage={currentPage}
+            numberOfPages={numberOfPages}
+            onPageChange={loadProducts}
+          />
           <button
             disabled={loading || currentPage >= products.totalPages - 1}
             onClick={() => loadProducts(currentPage + 1)}
